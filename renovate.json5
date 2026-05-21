@@ -1,10 +1,32 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "enabledManagers": ["pre-commit", "custom.regex"],
+
+  "configMigration": true,
+
+  "dependencyDashboard": true,
+
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 10,
+
+  "automerge": false,
+  "automergeType": "pr",
+  "automergeStrategy": "rebase",
+  "platformAutomerge": true,
+
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "",
+
+  "enabledManagers": [
+    "custom.regex",
+    "pre-commit",
+    "github-actions"
+  ],
+
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/Chart\\.yaml$/"],
+      "managerFilePatterns": ["/^Chart\\.yaml$/"],
       "matchStrings": [
         "appVersion:\\s*\"?(?<currentValue>[^\\s\"]+)\"?"
       ],
@@ -12,22 +34,61 @@
       "datasourceTemplate": "docker"
     }
   ],
+
+  "pre-commit": {
+    "enabled": true
+  },
+
   "packageRules": [
     {
       "matchPackageNames": ["quay.io/hedgedoc/hedgedoc"],
-      "matchUpdateTypes": ["patch"],
-      "automerge": true
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "commitMessageAction": "bump",
+      "commitMessageTopic": "hedgedoc",
+      "semanticCommitType": "fix",
+      "semanticCommitScope": "app",
+      "automerge": false
     },
     {
       "matchPackageNames": ["quay.io/hedgedoc/hedgedoc"],
-      "matchUpdateTypes": ["minor", "major"],
+      "matchUpdateTypes": ["major", "minor"],
+      "commitMessageAction": "update",
+      "semanticCommitType": "feat",
+      "automerge": false
+    },
+    {
+      "matchPackageNames": ["quay.io/hedgedoc/hedgedoc"],
+      "matchUpdateTypes": ["major"],
+      "commitMessagePrefix": "feat(app)!:",
       "automerge": false
     },
     {
       "matchManagers": ["pre-commit"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
       "groupName": "pre-commit hooks",
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "pre-commit",
+      "automerge": false
+    },
+    {
+      "matchManagers": ["pre-commit"],
+      "matchUpdateTypes": ["major"],
+      "groupName": null,
+      "automerge": false
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "groupName": "workflow actions",
+      "semanticCommitType": "ci",
+      "semanticCommitScope": "",
+      "automerge": false
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["major"],
+      "groupName": null,
+      "automerge": false
     }
   ]
 }
