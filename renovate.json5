@@ -47,7 +47,7 @@
       "commitMessageTopic": "hedgedoc",
       "semanticCommitType": "fix",
       "semanticCommitScope": "app",
-      "automerge": false
+      "automerge": true
     },
     {
       "matchPackageNames": ["quay.io/hedgedoc/hedgedoc"],
@@ -68,7 +68,7 @@
       "groupName": "pre-commit hooks",
       "semanticCommitType": "chore",
       "semanticCommitScope": "pre-commit",
-      "automerge": false
+      "automerge": true
     },
     {
       "matchManagers": ["pre-commit"],
@@ -82,7 +82,7 @@
       "groupName": "workflow actions",
       "semanticCommitType": "ci",
       "semanticCommitScope": "",
-      "automerge": false
+      "automerge": true
     },
     {
       "matchManagers": ["github-actions"],
